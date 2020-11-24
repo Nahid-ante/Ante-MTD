@@ -7,11 +7,12 @@ import os
 from currency_converter import CurrencyConverter
 import subprocess
 from sqlalchemy import create_engine
+from credentials import *
 
-root = Tk()
-root.frame = Frame(root)
-root.title("Choose daily revenue file.")
-root.update()
+# root = Tk()
+# root.frame = Frame(root)
+# root.title("Choose daily revenue file.")
+# root.update()
 
 filename = askopenfilename(title='Daily revenue file:')
 
@@ -98,11 +99,9 @@ for _, code_row in df.iterrows():
             bng_last = bng_dict.get(code_row['Campaign'][3:5])
             df.loc[_, 'Code'] = code_row['Campaign'][:5] + "-" + bng_last
 
-    elif 'BR' in code_row['Campaign'] and 'IT21' in code_row['Campaign']:
-        df.loc[_, 'Code'] = code_row['Campaign'][:4] + 'BR'
-    elif 'BR' in code_row['Campaign'] and 'DE12' in code_row['Campaign']:
-        df.loc[_, 'Code'] = code_row['Campaign'][:4] + 'BR'
-    elif 'BR' in code_row['Campaign'] and 'FI01' in code_row['Campaign']:
+    elif 'BR' in code_row['Campaign'] and 'BET' in code_row['Campaign']:
+        df.loc[_, 'Code'] = code_row['Campaign'][:8] + 'BR'
+    elif 'BR' in code_row['Campaign'] and 'BET' not in code_row['Campaign'] and 'CA61' not in code_row['Campaign']:
         df.loc[_, 'Code'] = code_row['Campaign'][:4] + 'BR'
 
     elif '888' in code_row['Campaign']:
@@ -243,7 +242,7 @@ for _, vertical_row in df.iterrows():
 bing = ["AT37", "AU14", "AU17", "BET-AT06", "BET-CA13", "BET-DE21", "DE96", "IT21", "NJ02", "BET-AU03", "BET-CH04",
         "BET-DE24", "BET-NL02", "BET-NZ05", "DE97", "IE01", "IE06", "IE08", "BET-FI09", "BET-IT08", "BET-NO03",
         "BET-SE18", "SE64", "IE13", "IE16", "IT19", "NL16", "NZ20", "CA61", "DE102", "AU25", "ES02", "FR02", "JP02",
-        "IN02", "BNG12-DE", "NJ002", "CA84", "CA86", "BET-IT21BR", "IT21BR", 'DE12BR', 'FI01BR', 'DE12']
+        "IN02", "BNG12-DE", "NJ002", "CA84", "CA86", "BET-IT21BR", "IT21BR", "DE12BR", "FI01BR", "DE12", "AT01BR", "DE102BR", "DK03", "NL16BR"]
 facebook = ['SE01', 'DE75']
 
 df['Traffic Channel'] = ''
@@ -289,16 +288,16 @@ philipp_accounts = ["NL16", "IE06", "DE96", "CA61", "DE102", "IE01", "IE16", "AU
 farid_accounts = ["TEST50-FI", "TEST35-GL", "TEST58-CA", "DE84", "FI79", "TEST57-CA", "OUT13-CA", "TEST63-NO",
                   "TEST60-CA", "TEST61-NO", "TEST54-DE", "TEST66-FI", "OUT07-FI", "DE26", "DE73", "BET-DE36",
                   "OUT23-DE", "OUT26-NO", "OUT15-DE", "DE123", "OBT16-DE", "OBT04-GL", "IE13", "OBT01-DE", "AT37",
-                  "ES02", "NZ20", "BNG12-DE", "DE12", "DE12BR"]
+                  "ES02", "NZ20", "BNG12-DE", "DE12", "DE12BR", "AT36"]
 
 islam_accounts = ["OUT02-DE", "SC12", "AU17", "OUT04-DE", "BET-NO13", "BET-DE30", "TEST32-CA", "OUT06-FI", "BET-DE35",
                   "TEST64-NO", "BET-FI06", "BET-CA23", "DC01", "TEST62-NO", "JP04", "BET-DE43", "CA20", "BET-FI16",
                   "BET-FI17", "OUT08-NO", "IT05", "OUT05-AU", "DE121", "CA76", "CA74", "FI83"]
-emir_accounts = ["DK02", "DK01", "BET-DK02", "BET-DK01", "TEST36-GL", "NJ04"]
+emir_accounts = ["DK02", "DK01", "BET-DK02", "BET-DK01", "TEST36-GL", "NJ04", "DK03", "PA01"]
 outsource_accounts = ["NZ17", "DE75", "DE133", "OBT50-DE"]
 fakhri_accounts = ['OUT52-NO']
 turgut_accounts = ['NJ02', 'NJ002']
-pasha_accounts = ["IT21", "CA84", "CA86", "BET-IT21BR", "IT21BR", "FI01BR"]
+pasha_accounts = ["IT21", "CA84", "CA86", "BET-IT21BR", "IT21BR", "FI01BR", "AT01BR", "DE102BR", "NL16BR"]
 
 for _, pod_acc in df.iterrows():
     if pod_acc['Code'] in philipp_accounts:
@@ -402,21 +401,33 @@ df.to_excel(complete_name)
 elapsed_time = end_time - start_time
 print(end_time - start_time)
 
-subprocess.run(['open', complete_name], check=True)
-root.destroy()
+exc = str(input('Do you want to open the excel file? yes/no ... '))
+if exc == 'Yes' or exc == 'yes':
+    subprocess.run(['open', complete_name], check=True)
+else:
+    pass
+    
+# root.destroy()
 
 allowing = str(input('Do you want to write file to MySQL Server? yes/no ... '))
 if allowing == 'Yes' or allowing == 'yes':
+    # sshtunnel.SSH_TIMEOUT = 5.0
+    # sshtunnel.TUNNEL_TIMEOUT = 5.0
     try:
-        engine1 = create_engine(
-            'mysql+mysqlconnector://mtd:WIX394h7JBo9aPd@mtd-report.cohf3wijmerc.eu-west-1.rds.amazonaws.com:3306/mtd_report')
-        # engine2 = create_engine('mysql+mysqlconnector://nemat:root@127.0.0.1:3306/mtd_report', echo=False)
-        connection1 = engine1.connect()
-        # connection2 = engine2.connect()
+        # with sshtunnel.SSHTunnelForwarder(
+        #         ('94.20.248.56', 22),
+        #         ssh_username='root',
+        #         ssh_password='Extr@w3b!',
+        #         remote_bind_address=(
+        #         '127.0.0.1', 3306)
+        # ) as tunnel:
+        #     port = tunnel.local_bind_port
+            engine = create_engine(
+                'mysql+mysqlconnector://' + user + ':' + password + '@' + host + ':3306/mtd_db')
+            connection = engine.connect()
     except Exception as e:
         print(e)
-    # df_wait.to_sql(name='mtd_table', con=connection2, schema='mtd_report', if_exists='append', index=False)
-    df_wait.to_sql(name='mtd_table', con=connection1, schema='mtd_report', if_exists='append', index=False)
+    df_wait.to_sql(name='mtd_revenue', con=connection, schema='mtd_db', if_exists='append', index=False)
     print("mtd_table is written successfully!")
     # Write "by Code" df to mysql.
     # df_code.to_sql(name='mtd_code', con=connection1, schema='mtd_report', if_exists='append', index=False)
