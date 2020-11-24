@@ -242,7 +242,7 @@ for _, vertical_row in df.iterrows():
 bing = ["AT37", "AU14", "AU17", "BET-AT06", "BET-CA13", "BET-DE21", "DE96", "IT21", "NJ02", "BET-AU03", "BET-CH04",
         "BET-DE24", "BET-NL02", "BET-NZ05", "DE97", "IE01", "IE06", "IE08", "BET-FI09", "BET-IT08", "BET-NO03",
         "BET-SE18", "SE64", "IE13", "IE16", "IT19", "NL16", "NZ20", "CA61", "DE102", "AU25", "ES02", "FR02", "JP02",
-        "IN02", "BNG12-DE", "NJ002", "CA84", "CA86", "BET-IT21BR", "IT21BR", "DE12BR", "FI01BR", "DE12", "AT01BR", "DE102BR", "DK03", "NL16BR"]
+        "IN02", "BNG12-DE", "NJ002", "CA84", "CA86", "BET-IT21BR", "IT21BR", "DE12BR", "FI01BR", "DE12", "AT01BR", "DE102BR", "DK03", "NL16BR", "SE01BR", "FR02BR", ]
 facebook = ['SE01', 'DE75']
 
 df['Traffic Channel'] = ''
@@ -297,7 +297,7 @@ emir_accounts = ["DK02", "DK01", "BET-DK02", "BET-DK01", "TEST36-GL", "NJ04", "D
 outsource_accounts = ["NZ17", "DE75", "DE133", "OBT50-DE"]
 fakhri_accounts = ['OUT52-NO']
 turgut_accounts = ['NJ02', 'NJ002']
-pasha_accounts = ["IT21", "CA84", "CA86", "BET-IT21BR", "IT21BR", "FI01BR", "AT01BR", "DE102BR", "NL16BR"]
+pasha_accounts = ["IT21", "CA84", "CA86", "BET-IT21BR", "IT21BR", "FI01BR", "AT01BR", "DE102BR", "NL16BR", "FR02BR", "SE01BR"]
 
 for _, pod_acc in df.iterrows():
     if pod_acc['Code'] in philipp_accounts:
