@@ -43,7 +43,7 @@ obt_dict = {
     '22': 'CA',
     '38': 'FI', '39': 'FI', '50': 'DE'
 }
-bng_dict = {'01': 'GL', '12': 'DE',
+bng_dict = {'01': 'GL', '12': 'DE', '22': 'FI'
 
             }
 ofb_dict = {
